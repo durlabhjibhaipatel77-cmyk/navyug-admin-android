@@ -762,6 +762,10 @@ fun NavyugLoginScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(
+                    if (loginSucceeded && selectedModule != null) Color(0xFF080D18)
+                    else PageBackground
+                )
                 .verticalScroll(rememberScrollState())
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -1303,7 +1307,7 @@ fun NavyugLoginScreen() {
                                         }
                                     },
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = NavyugNavy
+                                        containerColor = Color(0xFFFDC134)
                                     )
                                 ) {
                                     Text(
@@ -1322,7 +1326,7 @@ fun NavyugLoginScreen() {
                                         ?: selectedModule!!.label,
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = NavyugNavy
+                                    color = Color(0xFFF4F6FA)
                                 )
                             }
 
@@ -1339,14 +1343,14 @@ fun NavyugLoginScreen() {
                                         text = "Events Management",
                                         fontSize = 21.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                        color = Color(0xFFF4F6FA)
                                     )
 
                                     Spacer(modifier = Modifier.height(6.dp))
 
                                     Text(
                                         text = "View events from your Navyug website.",
-                                        color = Color.Gray,
+                                        color = Color(0xFF9AA9BC),
                                         fontSize = 13.sp
                                     )
 
@@ -1367,7 +1371,7 @@ fun NavyugLoginScreen() {
                                     } else {
                                         Text(
                                             text = "${events.size} events on this page",
-                                            color = Color.Gray,
+                                            color = Color(0xFF9AA9BC),
                                             fontSize = 13.sp
                                         )
 
@@ -1405,14 +1409,14 @@ fun NavyugLoginScreen() {
                                         text = "Navyug Magazines",
                                         fontSize = 21.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                        color = Color(0xFFF4F6FA)
                                     )
 
                                     Spacer(modifier = Modifier.height(6.dp))
 
                                     Text(
                                         text = "View and open magazine PDFs from your Navyug website.",
-                                        color = Color.Gray,
+                                        color = Color(0xFF9AA9BC),
                                         fontSize = 13.sp
                                     )
 
@@ -1433,7 +1437,7 @@ fun NavyugLoginScreen() {
                                     } else {
                                         Text(
                                             text = "${magazines.size} magazines on this page",
-                                            color = Color.Gray,
+                                            color = Color(0xFF9AA9BC),
                                             fontSize = 13.sp
                                         )
 
@@ -1471,14 +1475,14 @@ fun NavyugLoginScreen() {
                                         text = "Seminars Management",
                                         fontSize = 21.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                        color = Color(0xFFF4F6FA)
                                     )
 
                                     Spacer(modifier = Modifier.height(6.dp))
 
                                     Text(
                                         text = "View seminars and images from your Navyug website.",
-                                        color = Color.Gray,
+                                        color = Color(0xFF9AA9BC),
                                         fontSize = 13.sp
                                     )
 
@@ -1499,7 +1503,7 @@ fun NavyugLoginScreen() {
                                     } else {
                                         Text(
                                             text = "${seminars.size} seminars on this page",
-                                            color = Color.Gray,
+                                            color = Color(0xFF9AA9BC),
                                             fontSize = 13.sp
                                         )
 
@@ -1537,14 +1541,14 @@ fun NavyugLoginScreen() {
                                         text = "Navyug Gallery",
                                         fontSize = 21.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                        color = Color(0xFFF4F6FA)
                                     )
 
                                     Spacer(modifier = Modifier.height(6.dp))
 
                                     Text(
                                         text = "View photos from your Navyug website gallery.",
-                                        color = Color.Gray,
+                                        color = Color(0xFF9AA9BC),
                                         fontSize = 13.sp
                                     )
 
@@ -1565,7 +1569,7 @@ fun NavyugLoginScreen() {
                                     } else {
                                         Text(
                                             text = "${gallery.size} gallery items on this page",
-                                            color = Color.Gray,
+                                            color = Color(0xFF9AA9BC),
                                             fontSize = 13.sp
                                         )
 
@@ -1607,14 +1611,14 @@ fun NavyugLoginScreen() {
                                         text = "Contact Messages",
                                         fontSize = 21.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                        color = Color(0xFFF4F6FA)
                                     )
 
                                     Spacer(modifier = Modifier.height(6.dp))
 
                                     Text(
                                         text = "View enquiries submitted through your Navyug website contact form.",
-                                        color = Color.Gray,
+                                        color = Color(0xFF9AA9BC),
                                         fontSize = 13.sp
                                     )
 
@@ -1635,7 +1639,7 @@ fun NavyugLoginScreen() {
                                     } else {
                                         Text(
                                             text = "${contactMessages.size} messages on this page",
-                                            color = Color.Gray,
+                                            color = Color(0xFF9AA9BC),
                                             fontSize = 13.sp
                                         )
 
@@ -1681,14 +1685,14 @@ fun NavyugLoginScreen() {
                                             text = "Admission Applications",
                                             fontSize = 21.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = NavyugNavy
+                                            color = Color(0xFFF4F6FA)
                                         )
 
                                         Spacer(modifier = Modifier.height(6.dp))
 
                                         Text(
                                             text = "View school and college admission applications.",
-                                            color = Color.Gray,
+                                            color = Color(0xFF9AA9BC),
                                             fontSize = 13.sp
                                         )
 
@@ -1723,7 +1727,7 @@ fun NavyugLoginScreen() {
                                             },
                                             modifier = Modifier.fillMaxWidth(),
                                             colors = ButtonDefaults.buttonColors(
-                                                containerColor = NavyugNavy
+                                                containerColor = Color(0xFFFDC134)
                                             )
                                         ) {
                                             Text("Search")
@@ -1734,7 +1738,7 @@ fun NavyugLoginScreen() {
                                         Text(
                                             text = "Admission Type",
                                             fontWeight = FontWeight.Bold,
-                                            color = NavyugNavy
+                                            color = Color(0xFFF4F6FA)
                                         )
 
                                         Spacer(modifier = Modifier.height(6.dp))
@@ -1762,7 +1766,7 @@ fun NavyugLoginScreen() {
                                         Text(
                                             text = "Application Status",
                                             fontWeight = FontWeight.Bold,
-                                            color = NavyugNavy
+                                            color = Color(0xFFF4F6FA)
                                         )
 
                                         Spacer(modifier = Modifier.height(6.dp))
@@ -1846,7 +1850,7 @@ fun NavyugLoginScreen() {
 
                                             Text(
                                                 text = "${admissions.size} applications on this page",
-                                                color = Color.Gray,
+                                                color = Color(0xFF9AA9BC),
                                                 fontSize = 13.sp
                                             )
 
@@ -1940,14 +1944,14 @@ fun NavyugLoginScreen() {
                                         text = selectedModule!!.label,
                                         fontSize = 20.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                        color = Color(0xFFF4F6FA)
                                     )
 
                                     Spacer(modifier = Modifier.height(12.dp))
 
                                     Text(
                                         text = "This module will be connected in a later step.",
-                                        color = Color.Gray,
+                                        color = Color(0xFF9AA9BC),
                                         fontSize = 14.sp
                                     )
                                 }
@@ -2049,7 +2053,7 @@ fun NavyugLoginScreen() {
 
             Text(
                 text = "Navyug Group of Education",
-                color = NavyugNavy,
+                color = Color(0xFFF4F6FA),
                 fontSize = 13.sp
             )
 
@@ -2323,7 +2327,7 @@ private fun DarkModuleTile(
         shape = RoundedCornerShape(19.dp),
         tonalElevation = 2.dp
     ) {
-        Column(Modifier.padding(15.dp).heightIn(min = 126.dp)) {
+        Column(Modifier.padding(15.dp).height(166.dp)) {
             Box(
                 modifier = Modifier
                     .size(42.dp)
@@ -2333,14 +2337,15 @@ private fun DarkModuleTile(
                 Text(icon, color = gold, fontSize = 23.sp, fontWeight = FontWeight.Bold)
             }
             Spacer(Modifier.height(15.dp))
-            Text(module.label, color = white, fontSize = 14.sp, fontWeight = FontWeight.Bold, maxLines = 2)
+            Text(module.label, color = white, fontSize = 14.sp, fontWeight = FontWeight.Bold, maxLines = 2, lineHeight = 18.sp)
             Spacer(Modifier.height(5.dp))
             Text(
                 module.subtitle.ifBlank { "Open module" },
                 color = muted,
                 fontSize = 10.sp,
                 lineHeight = 14.sp,
-                maxLines = 2
+                maxLines = 2,
+                minLines = 2
             )
             Spacer(Modifier.weight(1f))
             Text("OPEN  →", color = gold, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
@@ -2597,8 +2602,8 @@ private fun EventCard(event: EventRecord) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        color = Color(0xFF121E30),
+        shadowElevation = 0.dp
     ) {
 
         Column(
@@ -2609,7 +2614,7 @@ private fun EventCard(event: EventRecord) {
                 text = event.title.ifBlank { "Untitled Event" },
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -2619,7 +2624,7 @@ private fun EventCard(event: EventRecord) {
                     text = "Date: ${event.eventDate}",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color(0xFF8A6500)
+                    color = Color(0xFFFDC134)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -2629,7 +2634,7 @@ private fun EventCard(event: EventRecord) {
                 Text(
                     text = event.description,
                     fontSize = 14.sp,
-                    color = Color.DarkGray
+                    color = Color(0xFFD0D8E4)
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -2641,7 +2646,7 @@ private fun EventCard(event: EventRecord) {
                     text = "Event Images (${event.files.size})",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
-                    color = NavyugNavy
+                    color = Color(0xFFF4F6FA)
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -2669,7 +2674,7 @@ private fun EventCard(event: EventRecord) {
                 Text(
                     text = "No attached images or files.",
                     fontSize = 12.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
 
@@ -2679,7 +2684,7 @@ private fun EventCard(event: EventRecord) {
                 Text(
                     text = "Created: ${event.createdAt}",
                     fontSize = 11.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
         }
@@ -2698,8 +2703,8 @@ private fun MagazineCard(magazine: MagazineRecord) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        color = Color(0xFF121E30),
+        shadowElevation = 0.dp
     ) {
 
         Column(
@@ -2712,7 +2717,7 @@ private fun MagazineCard(magazine: MagazineRecord) {
                 },
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -2722,7 +2727,7 @@ private fun MagazineCard(magazine: MagazineRecord) {
                     text = "Issue Date: ${magazine.issueDate}",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color(0xFF8A6500)
+                    color = Color(0xFFFDC134)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -2732,7 +2737,7 @@ private fun MagazineCard(magazine: MagazineRecord) {
                 Text(
                     text = magazine.description,
                     fontSize = 14.sp,
-                    color = Color.DarkGray
+                    color = Color(0xFFD0D8E4)
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -2744,7 +2749,7 @@ private fun MagazineCard(magazine: MagazineRecord) {
                     text = "Available PDF Files (${magazine.files.size})",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
-                    color = NavyugNavy
+                    color = Color(0xFFF4F6FA)
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -2759,7 +2764,7 @@ private fun MagazineCard(magazine: MagazineRecord) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(
-                                    Color.White,
+                                    Color(0xFF202E43),
                                     RoundedCornerShape(10.dp)
                                 )
                                 .padding(10.dp),
@@ -2771,7 +2776,7 @@ private fun MagazineCard(magazine: MagazineRecord) {
                                 modifier = Modifier.weight(1f),
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = NavyugNavy
+                                color = Color(0xFFF4F6FA)
                             )
 
                             Button(
@@ -2811,7 +2816,7 @@ private fun MagazineCard(magazine: MagazineRecord) {
                 Text(
                     text = "No PDF attached to this magazine.",
                     fontSize = 12.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
 
@@ -2821,7 +2826,7 @@ private fun MagazineCard(magazine: MagazineRecord) {
                 Text(
                     text = "Created: ${magazine.createdAt}",
                     fontSize = 11.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
         }
@@ -2837,8 +2842,8 @@ private fun SeminarCard(seminar: SeminarRecord) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        color = Color(0xFF121E30),
+        shadowElevation = 0.dp
     ) {
 
         Column(
@@ -2851,7 +2856,7 @@ private fun SeminarCard(seminar: SeminarRecord) {
                 },
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -2861,7 +2866,7 @@ private fun SeminarCard(seminar: SeminarRecord) {
                     text = "Seminar Date: ${seminar.seminarDate}",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color(0xFF8A6500)
+                    color = Color(0xFFFDC134)
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -2887,13 +2892,13 @@ private fun SeminarCard(seminar: SeminarRecord) {
                 Text(
                     text = seminar.description,
                     fontSize = 14.sp,
-                    color = Color.DarkGray
+                    color = Color(0xFFD0D8E4)
                 )
             } else {
                 Text(
                     text = "No description available.",
                     fontSize = 12.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
 
@@ -2903,7 +2908,7 @@ private fun SeminarCard(seminar: SeminarRecord) {
                 Text(
                     text = "Created: ${seminar.createdAt}",
                     fontSize = 11.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
         }
@@ -2920,8 +2925,8 @@ private fun GalleryCard(item: GalleryRecord) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        color = Color(0xFF121E30),
+        shadowElevation = 0.dp
     ) {
 
         Column(
@@ -2934,7 +2939,7 @@ private fun GalleryCard(item: GalleryRecord) {
                 },
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -2969,7 +2974,7 @@ private fun GalleryCard(item: GalleryRecord) {
                 ) {
                     Text(
                         text = "Image not available",
-                        color = Color.Gray,
+                        color = Color(0xFF9AA9BC),
                         fontSize = 13.sp
                     )
                 }
@@ -2981,7 +2986,7 @@ private fun GalleryCard(item: GalleryRecord) {
                 Text(
                     text = item.description,
                     fontSize = 14.sp,
-                    color = Color.DarkGray
+                    color = Color(0xFFD0D8E4)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -2991,7 +2996,7 @@ private fun GalleryCard(item: GalleryRecord) {
                 Text(
                     text = "Added: ${item.createdAt}",
                     fontSize = 11.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
         }
@@ -3017,8 +3022,8 @@ private fun ContactMessageCard(
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        color = Color(0xFF121E30),
+        shadowElevation = 0.dp
     ) {
 
         Column(
@@ -3037,7 +3042,7 @@ private fun ContactMessageCard(
                     modifier = Modifier.weight(1f),
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
-                    color = NavyugNavy
+                    color = Color(0xFFF4F6FA)
                 )
 
                 Surface(
@@ -3071,7 +3076,7 @@ private fun ContactMessageCard(
                 text = "Subject",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray
+                color = Color(0xFF9AA9BC)
             )
 
             Spacer(modifier = Modifier.height(3.dp))
@@ -3082,7 +3087,7 @@ private fun ContactMessageCard(
                 },
                 fontSize = 15.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -3091,7 +3096,7 @@ private fun ContactMessageCard(
                 text = "Message",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray
+                color = Color(0xFF9AA9BC)
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -3101,7 +3106,7 @@ private fun ContactMessageCard(
                     "No message"
                 },
                 fontSize = 14.sp,
-                color = Color.DarkGray
+                color = Color(0xFFD0D8E4)
             )
 
             Spacer(modifier = Modifier.height(14.dp))
@@ -3114,7 +3119,7 @@ private fun ContactMessageCard(
                 text = "Contact Details",
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -3122,13 +3127,13 @@ private fun ContactMessageCard(
             Text(
                 text = "Phone: ${item.phone}",
                 fontSize = 13.sp,
-                color = Color.DarkGray
+                color = Color(0xFFD0D8E4)
             )
 
             Text(
                 text = "Email: ${item.email}",
                 fontSize = 13.sp,
-                color = Color.DarkGray
+                color = Color(0xFFD0D8E4)
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -3196,7 +3201,7 @@ private fun ContactMessageCard(
                 Text(
                     text = "Received: ${item.createdAt}",
                     fontSize = 11.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
 
@@ -3204,7 +3209,7 @@ private fun ContactMessageCard(
                 Text(
                     text = "Read at: ${item.readAt}",
                     fontSize = 11.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
         }
@@ -3226,12 +3231,14 @@ private fun AdmissionCard(
             .fillMaxWidth()
             .clickable { onClick() },
         shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        color = Color(0xFF121E30),
+        shadowElevation = 0.dp
     ) {
 
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .defaultMinSize(minHeight = 196.dp)
+                .padding(16.dp)
         ) {
 
             Row(
@@ -3248,7 +3255,7 @@ private fun AdmissionCard(
                         },
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
-                        color = NavyugNavy
+                        color = Color(0xFFF4F6FA)
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
@@ -3258,7 +3265,7 @@ private fun AdmissionCard(
                             "Application #${item.id}"
                         },
                         fontSize = 12.sp,
-                        color = Color.Gray
+                        color = Color(0xFF9AA9BC)
                     )
                 }
 
@@ -3271,7 +3278,7 @@ private fun AdmissionCard(
                 text = "${item.admissionType} • ${item.applyingFor}",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Spacer(modifier = Modifier.height(6.dp))
@@ -3279,13 +3286,13 @@ private fun AdmissionCard(
             Text(
                 text = "Academic Year: ${item.academicYear}",
                 fontSize = 13.sp,
-                color = Color.DarkGray
+                color = Color(0xFFD0D8E4)
             )
 
             Text(
                 text = "Guardian Phone: ${item.guardianPhone}",
                 fontSize = 13.sp,
-                color = Color.DarkGray
+                color = Color(0xFFD0D8E4)
             )
 
             if (item.createdAt.isNotBlank()) {
@@ -3294,7 +3301,7 @@ private fun AdmissionCard(
                 Text(
                     text = "Applied: ${item.createdAt}",
                     fontSize = 11.sp,
-                    color = Color.Gray
+                    color = Color(0xFF9AA9BC)
                 )
             }
 
@@ -3366,7 +3373,7 @@ private fun AdmissionDetailScreen(
         text = "Application Details",
         fontSize = 21.sp,
         fontWeight = FontWeight.Bold,
-        color = NavyugNavy
+        color = Color(0xFFF4F6FA)
     )
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -3376,7 +3383,7 @@ private fun AdmissionDetailScreen(
             "Application #${item.id}"
         },
         fontSize = 14.sp,
-        color = Color.Gray
+        color = Color(0xFF9AA9BC)
     )
 
     Spacer(modifier = Modifier.height(12.dp))
@@ -3495,7 +3502,7 @@ private fun AdmissionDetailScreen(
         modifier = Modifier.fillMaxWidth(),
         enabled = item.guardianPhone.isNotBlank(),
         colors = ButtonDefaults.buttonColors(
-            containerColor = NavyugNavy
+            containerColor = Color(0xFFFDC134)
         )
     ) {
         Text("Call Guardian")
@@ -3527,7 +3534,7 @@ private fun AdmissionDetailSection(
                 text = title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -3558,7 +3565,7 @@ private fun AdmissionDetailRow(
             text = label,
             fontSize = 11.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Gray
+            color = Color(0xFF9AA9BC)
         )
 
         Spacer(modifier = Modifier.height(3.dp))
@@ -3566,7 +3573,7 @@ private fun AdmissionDetailRow(
         Text(
             text = value,
             fontSize = 14.sp,
-            color = Color.DarkGray
+            color = Color(0xFFD0D8E4)
         )
     }
 }
@@ -3602,7 +3609,7 @@ private fun AdmissionDocumentButton(
                 modifier = Modifier.weight(1f),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
-                color = NavyugNavy
+                color = Color(0xFFF4F6FA)
             )
 
             Button(
@@ -4724,14 +4731,14 @@ private fun CareersScreen(
             text = "Career Applications",
             fontSize = 23.sp,
             fontWeight = FontWeight.Bold,
-            color = NavyugNavy
+            color = Color(0xFFF4F6FA)
         )
 
         Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = "View and review submitted job applications.",
-            color = Color.Gray,
+            color = Color(0xFF9AA9BC),
             fontSize = 13.sp
         )
 
@@ -4761,7 +4768,7 @@ private fun CareersScreen(
         Text(
             text = "Total Applications: ${applications.size}",
             fontWeight = FontWeight.Bold,
-            color = NavyugNavy
+            color = Color(0xFFF4F6FA)
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -4797,14 +4804,16 @@ private fun CareersScreen(
                             },
                         shape = RoundedCornerShape(14.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color.White
+                            containerColor = Color(0xFF172438)
                         ),
                         elevation = CardDefaults.cardElevation(
                             defaultElevation = 3.dp
                         )
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier
+                                .defaultMinSize(minHeight = 190.dp)
+                                .padding(16.dp)
                         ) {
                             Text(
                                 text = item.applicantName.ifBlank {
@@ -4812,7 +4821,7 @@ private fun CareersScreen(
                                 },
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = NavyugNavy
+                                color = Color(0xFFF4F6FA)
                             )
 
                             Spacer(modifier = Modifier.height(4.dp))
@@ -4822,7 +4831,7 @@ private fun CareersScreen(
                                     "Application #${item.id}"
                                 },
                                 fontSize = 12.sp,
-                                color = Color.Gray
+                                color = Color(0xFF9AA9BC)
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -4831,19 +4840,19 @@ private fun CareersScreen(
                                 text = "Position: ${item.positionApplied.ifBlank { "Not specified" }}",
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                color = NavyugNavy
+                                color = Color(0xFFF4F6FA)
                             )
 
                             Text(
                                 text = "Phone: ${item.phone.ifBlank { "Not provided" }}",
                                 fontSize = 13.sp,
-                                color = Color.DarkGray
+                                color = Color(0xFFD0D8E4)
                             )
 
                             Text(
                                 text = "Qualification: ${item.qualification.ifBlank { "Not provided" }}",
                                 fontSize = 13.sp,
-                                color = Color.DarkGray
+                                color = Color(0xFFD0D8E4)
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -4886,7 +4895,7 @@ private fun CareerDetailDialog(
         title = {
             Text(
                 text = "Application Details",
-                color = NavyugNavy,
+                color = Color(0xFFF4F6FA),
                 fontWeight = FontWeight.Bold
             )
         },
@@ -4923,7 +4932,7 @@ private fun CareerDetailDialog(
                     ) {
                         Text(
                             text = "VIEW / DOWNLOAD RESUME",
-                            color = NavyugNavy,
+                            color = Color(0xFFF4F6FA),
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -4934,7 +4943,7 @@ private fun CareerDetailDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("CLOSE")
+                Text("CLOSE", color = Color(0xFFFDC134))
             }
         }
     )
@@ -4955,12 +4964,12 @@ private fun CareerDetailRow(
         Text(
             text = label,
             fontWeight = FontWeight.Bold,
-            color = NavyugNavy
+            color = Color(0xFFF4F6FA)
         )
 
         Text(
             text = value.ifBlank { "Not provided" },
-            color = Color.DarkGray
+            color = Color(0xFFD0D8E4)
         )
     }
 }
