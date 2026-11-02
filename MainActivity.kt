@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -688,9 +689,76 @@ fun NavyugLoginScreen() {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = PageBackground
+        color = if (loginSucceeded && selectedModule == null) Color(0xFF080D18) else PageBackground
     ) {
 
+        if (loginSucceeded && selectedModule == null) {
+            DarkPremiumDashboard(
+                name = loggedInName,
+                username = loggedInUsername,
+                role = loggedInRole,
+                modules = modules,
+                loading = dashboardLoading,
+                loaded = dashboardLoaded,
+                message = dashboardMessage,
+                onRetry = {
+                    scope.launch {
+                        dashboardLoading = true
+                        dashboardMessage = ""
+                        val result = withContext(Dispatchers.IO) { fetchDashboard() }
+                        dashboardLoading = false
+                        if (result.success) {
+                            loggedInName = result.name.ifBlank { loggedInName }
+                            loggedInUsername = result.username.ifBlank { loggedInUsername }
+                            loggedInRole = result.role
+                            modules = result.modules
+                            dashboardLoaded = true
+                        } else {
+                            dashboardMessage = result.message
+                        }
+                    }
+                },
+                onModuleClick = { module ->
+                    selectedModule = module
+                    selectedAdmission = null
+                    when {
+                        module.key.equals("events", ignoreCase = true) -> {
+                            events = emptyList(); eventsMessage = ""; eventsPage = 1; eventsTotalPages = 1
+                            loadEvents(1)
+                        }
+                        module.key.equals("magazines", ignoreCase = true) -> {
+                            magazines = emptyList(); magazinesMessage = ""; magazinesPage = 1; magazinesTotalPages = 1
+                            loadMagazines(1)
+                        }
+                        module.key.equals("seminars", ignoreCase = true) -> {
+                            seminars = emptyList(); seminarsMessage = ""; seminarsPage = 1; seminarsTotalPages = 1
+                            loadSeminars(1)
+                        }
+                        module.key.equals("gallery", ignoreCase = true) -> {
+                            gallery = emptyList(); galleryMessage = ""; galleryPage = 1; galleryTotalPages = 1
+                            loadGallery(1)
+                        }
+                        module.key.equals("contact_messages", ignoreCase = true) ||
+                            module.key.equals("contact_inquiries", ignoreCase = true) -> {
+                            contactMessages = emptyList(); contactMessagesMessage = ""
+                            contactMessagesPage = 1; contactMessagesTotalPages = 1
+                            loadContactMessages(1)
+                        }
+                        module.key.equals("admission_applications", ignoreCase = true) -> {
+                            admissions = emptyList(); admissionsMessage = ""
+                            admissionsPage = 1; admissionsTotalPages = 1
+                            admissionSearch = ""; admissionTypeFilter = "all"; admissionStatusFilter = "all"
+                            loadAdmissions(1, "", "all", "all")
+                        }
+                        module.key.equals("career_applications", ignoreCase = true) ||
+                            module.key.equals("careers", ignoreCase = true) -> {
+                            careerApplications = emptyList(); careersMessage = ""
+                            loadCareers()
+                        }
+                    }
+                }
+            )
+        } else {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -1986,6 +2054,296 @@ fun NavyugLoginScreen() {
             )
 
             Spacer(modifier = Modifier.height(16.dp))
+        }
+        }
+    }
+}
+
+// ---------------------------------------------------------
+// DARK PREMIUM DASHBOARD
+// ---------------------------------------------------------
+
+@Composable
+private fun DarkPremiumDashboard(
+    name: String,
+    username: String,
+    role: String,
+    modules: List<DashboardModule>,
+    loading: Boolean,
+    loaded: Boolean,
+    message: String,
+    onRetry: () -> Unit,
+    onModuleClick: (DashboardModule) -> Unit
+) {
+    val background = Color(0xFF080D18)
+    val panel = Color(0xFF111B2B)
+    val panelAlt = Color(0xFF172438)
+    val gold = Color(0xFFFDC134)
+    val muted = Color(0xFF9AA9BC)
+    val white = Color(0xFFF5F7FB)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(background)
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 20.dp, vertical = 22.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(46.dp)
+                    .background(gold, RoundedCornerShape(14.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("N", color = background, fontSize = 27.sp, fontWeight = FontWeight.Black)
+            }
+            Spacer(Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text("NAVYUG", color = white, fontSize = 19.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 2.sp)
+                Text("GROUP OF EDUCATION", color = gold, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.6.sp)
+            }
+            Surface(color = Color(0xFF183329), shape = RoundedCornerShape(30.dp)) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 11.dp, vertical = 7.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(Modifier.size(7.dp).background(Color(0xFF55D69E), RoundedCornerShape(50)))
+                    Spacer(Modifier.width(7.dp))
+                    Text("SECURE", color = Color(0xFF8DE2B8), fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                }
+            }
+        }
+
+        Spacer(Modifier.height(28.dp))
+
+        Text("ADMINISTRATION", color = gold, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+        Spacer(Modifier.height(7.dp))
+        Text(
+            text = "Welcome back,\n${name.ifBlank { "Administrator" }}",
+            color = white,
+            fontSize = 29.sp,
+            lineHeight = 35.sp,
+            fontWeight = FontWeight.Bold
+        )
+        if (username.isNotBlank()) {
+            Spacer(Modifier.height(6.dp))
+            Text("@$username", color = muted, fontSize = 13.sp)
+        }
+
+        Spacer(Modifier.height(22.dp))
+
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = panel,
+            shape = RoundedCornerShape(22.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(Brush.linearGradient(listOf(Color(0xFF1B304B), Color(0xFF111B2B), Color(0xFF25213A))))
+                    .padding(20.dp)
+            ) {
+                Column {
+                    Text("CONTROL CENTER", color = gold, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+                    Spacer(Modifier.height(9.dp))
+                    Text("Your institution.\nOne place to manage it.", color = white, fontSize = 21.sp, lineHeight = 27.sp, fontWeight = FontWeight.SemiBold)
+                    Spacer(Modifier.height(17.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Surface(color = Color(0x33FDC134), shape = RoundedCornerShape(9.dp)) {
+                            Text(
+                                text = role.ifBlank { "ADMIN ACCOUNT" }.uppercase(),
+                                modifier = Modifier.padding(horizontal = 11.dp, vertical = 7.dp),
+                                color = gold,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        Spacer(Modifier.weight(1f))
+                        Text("NAVYUG ADMIN", color = muted, fontSize = 9.sp, letterSpacing = 1.sp)
+                    }
+                }
+            }
+        }
+
+        Spacer(Modifier.height(20.dp))
+
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
+            DashboardMetricCard(
+                modifier = Modifier.weight(1f),
+                value = modules.size.toString(),
+                label = "ACCESSIBLE MODULES",
+                accent = gold,
+                panel = panelAlt,
+                textColor = white,
+                muted = muted
+            )
+            DashboardMetricCard(
+                modifier = Modifier.weight(1f),
+                value = if (loaded) "READY" else if (loading) "SYNC" else "—",
+                label = "DASHBOARD STATUS",
+                accent = Color(0xFF70D6A8),
+                panel = panelAlt,
+                textColor = white,
+                muted = muted
+            )
+        }
+
+        Spacer(Modifier.height(28.dp))
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text("MANAGEMENT", color = gold, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.8.sp)
+                Spacer(Modifier.height(5.dp))
+                Text("Your modules", color = white, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            }
+            Text("${modules.size} AVAILABLE", color = muted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+        }
+
+        Spacer(Modifier.height(14.dp))
+
+        when {
+            loading -> {
+                Surface(color = panel, shape = RoundedCornerShape(18.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.size(22.dp), color = gold, strokeWidth = 2.dp)
+                        Spacer(Modifier.width(13.dp))
+                        Text("Syncing your dashboard modules...", color = muted, fontSize = 13.sp)
+                    }
+                }
+            }
+            !loaded -> {
+                Surface(color = panel, shape = RoundedCornerShape(18.dp)) {
+                    Column(Modifier.fillMaxWidth().padding(20.dp)) {
+                        Text(message.ifBlank { "Unable to load your dashboard." }, color = Color(0xFFFF9B9B), fontSize = 13.sp)
+                        Spacer(Modifier.height(13.dp))
+                        Button(
+                            onClick = onRetry,
+                            colors = ButtonDefaults.buttonColors(containerColor = gold, contentColor = background),
+                            shape = RoundedCornerShape(12.dp)
+                        ) { Text("Retry connection", fontWeight = FontWeight.Bold) }
+                    }
+                }
+            }
+            modules.isEmpty() -> {
+                Surface(color = panel, shape = RoundedCornerShape(18.dp)) {
+                    Text(
+                        "No modules are assigned to this account.",
+                        modifier = Modifier.padding(20.dp),
+                        color = muted,
+                        fontSize = 13.sp
+                    )
+                }
+            }
+            else -> {
+                modules.chunked(2).forEach { rowModules ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        rowModules.forEach { module ->
+                            DarkModuleTile(
+                                modifier = Modifier.weight(1f),
+                                module = module,
+                                onClick = { onModuleClick(module) }
+                            )
+                        }
+                        if (rowModules.size == 1) Spacer(Modifier.weight(1f))
+                    }
+                    Spacer(Modifier.height(12.dp))
+                }
+            }
+        }
+
+        Spacer(Modifier.height(24.dp))
+        Surface(color = Color(0xFF101827), shape = RoundedCornerShape(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("N", color = gold, fontWeight = FontWeight.Black, fontSize = 18.sp)
+                Spacer(Modifier.width(10.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("Navyug Group of Education", color = white, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                    Text("Administration app", color = muted, fontSize = 10.sp)
+                }
+                Text("v1.0", color = muted, fontSize = 10.sp)
+            }
+        }
+        Spacer(Modifier.height(12.dp))
+    }
+}
+
+@Composable
+private fun DashboardMetricCard(
+    modifier: Modifier,
+    value: String,
+    label: String,
+    accent: Color,
+    panel: Color,
+    textColor: Color,
+    muted: Color
+) {
+    Surface(modifier = modifier, color = panel, shape = RoundedCornerShape(17.dp)) {
+        Column(Modifier.padding(15.dp)) {
+            Text(value, color = accent, fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
+            Spacer(Modifier.height(5.dp))
+            Text(label, color = muted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.7.sp)
+        }
+    }
+}
+
+@Composable
+private fun DarkModuleTile(
+    modifier: Modifier,
+    module: DashboardModule,
+    onClick: () -> Unit
+) {
+    val white = Color(0xFFF4F6FA)
+    val muted = Color(0xFF9AA9BC)
+    val gold = Color(0xFFFDC134)
+    val icon = when (module.key.lowercase()) {
+        "events" -> "◷"
+        "magazines" -> "▤"
+        "seminars" -> "◉"
+        "gallery" -> "▧"
+        "contact_messages", "contact_inquiries" -> "✉"
+        "admission_applications" -> "＋"
+        "career_applications", "careers" -> "▣"
+        else -> "◆"
+    }
+    Surface(
+        modifier = modifier.clickable(onClick = onClick),
+        color = Color(0xFF121E30),
+        shape = RoundedCornerShape(19.dp),
+        tonalElevation = 2.dp
+    ) {
+        Column(Modifier.padding(15.dp).heightIn(min = 126.dp)) {
+            Box(
+                modifier = Modifier
+                    .size(42.dp)
+                    .background(Color(0xFF26354B), RoundedCornerShape(13.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(icon, color = gold, fontSize = 23.sp, fontWeight = FontWeight.Bold)
+            }
+            Spacer(Modifier.height(15.dp))
+            Text(module.label, color = white, fontSize = 14.sp, fontWeight = FontWeight.Bold, maxLines = 2)
+            Spacer(Modifier.height(5.dp))
+            Text(
+                module.subtitle.ifBlank { "Open module" },
+                color = muted,
+                fontSize = 10.sp,
+                lineHeight = 14.sp,
+                maxLines = 2
+            )
+            Spacer(Modifier.weight(1f))
+            Text("OPEN  →", color = gold, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
         }
     }
 }
