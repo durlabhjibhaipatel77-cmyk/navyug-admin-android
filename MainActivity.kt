@@ -3523,8 +3523,8 @@ private fun AdmissionDetailSection(
             .fillMaxWidth()
             .padding(bottom = 14.dp),
         shape = RoundedCornerShape(12.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 1.dp
+        color = Color(0xFF121E30),
+        shadowElevation = 0.dp
     ) {
         Column(
             modifier = Modifier.padding(14.dp)
@@ -3639,7 +3639,7 @@ private fun AdmissionDocumentButton(
                 },
                 enabled = available,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = NavyugNavy
+                    containerColor = Color(0xFF26354B)
                 )
             ) {
                 Text(
