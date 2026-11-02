@@ -1197,68 +1197,122 @@ fun NavyugLoginScreen() {
 
                         } else {
 
-                            // SELECTED MODULE HEADER
+                            // REDESIGNED MODULE TOOLBAR
 
-                            Row(
+                            Surface(
                                 modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
+                                shape = RoundedCornerShape(18.dp),
+                                color = Color.White,
+                                shadowElevation = 2.dp
                             ) {
-
-                                Button(
-                                    onClick = {
-                                        if (selectedAdmission != null) {
-                                            selectedAdmission = null
-                                        } else {
-                                            selectedModule = null
-
-                                            events = emptyList()
-                                            eventsMessage = ""
-
-                                            magazines = emptyList()
-                                            magazinesMessage = ""
-
-                                            seminars = emptyList()
-                                            seminarsMessage = ""
-
-                                            gallery = emptyList()
-                                            galleryMessage = ""
-
-                                            contactMessages = emptyList()
-                                            contactMessagesMessage = ""
-
-                                            admissions = emptyList()
-                                            admissionsMessage = ""
-
-                                            careerApplications = emptyList()
-                                            careersMessage = ""
-                                            careersLoading = false
-                                        }
-                                    },
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = NavyugNavy
-                                    )
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Text(
-                                        if (selectedAdmission != null) {
-                                            "Back"
-                                        } else {
-                                            "Dashboard"
-                                        }
-                                    )
+
+                                    Button(
+                                        onClick = {
+                                            if (selectedAdmission != null) {
+                                                selectedAdmission = null
+                                            } else {
+                                                selectedModule = null
+
+                                                events = emptyList()
+                                                eventsMessage = ""
+
+                                                magazines = emptyList()
+                                                magazinesMessage = ""
+
+                                                seminars = emptyList()
+                                                seminarsMessage = ""
+
+                                                gallery = emptyList()
+                                                galleryMessage = ""
+
+                                                contactMessages = emptyList()
+                                                contactMessagesMessage = ""
+
+                                                admissions = emptyList()
+                                                admissionsMessage = ""
+
+                                                careerApplications = emptyList()
+                                                careersMessage = ""
+                                                careersLoading = false
+                                            }
+                                        },
+                                        shape = RoundedCornerShape(12.dp),
+                                        contentPadding = PaddingValues(
+                                            horizontal = 14.dp,
+                                            vertical = 11.dp
+                                        ),
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = NavyugGold,
+                                            contentColor = NavyugNavy
+                                        )
+                                    ) {
+                                        Text(
+                                            text = if (selectedAdmission != null) {
+                                                "BACK"
+                                            } else {
+                                                "MODULES"
+                                            },
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            letterSpacing = 0.4.sp
+                                        )
+                                    }
+
+                                    Spacer(modifier = Modifier.width(12.dp))
+
+                                    Column(
+                                        modifier = Modifier.weight(1f)
+                                    ) {
+                                        Text(
+                                            text = selectedAdmission?.studentName
+                                                ?: selectedModule!!.label,
+                                            fontSize = 17.sp,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            color = NavyugNavy,
+                                            maxLines = 1
+                                        )
+
+                                        Spacer(modifier = Modifier.height(3.dp))
+
+                                        Text(
+                                            text = if (selectedAdmission != null) {
+                                                "APPLICATION DETAILS"
+                                            } else {
+                                                "MANAGEMENT CONSOLE"
+                                            },
+                                            fontSize = 9.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            letterSpacing = 1.1.sp,
+                                            color = Color(0xFF8A6500)
+                                        )
+                                    }
+
+                                    Surface(
+                                        shape = RoundedCornerShape(12.dp),
+                                        color = Color(0xFFF2F5F8)
+                                    ) {
+                                        Text(
+                                            text = (selectedModule!!.label.firstOrNull()
+                                                ?.uppercaseChar()?.toString() ?: "N"),
+                                            modifier = Modifier.padding(
+                                                horizontal = 13.dp,
+                                                vertical = 10.dp
+                                            ),
+                                            fontSize = 17.sp,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            color = NavyugNavy
+                                        )
+                                    }
                                 }
-
-                                Spacer(modifier = Modifier.width(12.dp))
-
-                                Text(
-                                    text = selectedAdmission?.studentName
-                                        ?: selectedModule!!.label,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = NavyugNavy
-                                )
                             }
 
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(18.dp))
 
                             when {
 
@@ -1560,11 +1614,12 @@ fun NavyugLoginScreen() {
                                                 )
                                             },
                                             modifier = Modifier.fillMaxWidth(),
+                                            shape = RoundedCornerShape(12.dp),
                                             colors = ButtonDefaults.buttonColors(
                                                 containerColor = NavyugNavy
                                             )
                                         ) {
-                                            Text("Search")
+                                            Text("SEARCH APPLICATIONS", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                                         }
 
                                         Spacer(modifier = Modifier.height(14.dp))
@@ -2019,75 +2074,83 @@ private fun ModuleSectionHeader(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(22.dp),
         color = NavyugNavy,
-        shadowElevation = 3.dp
+        shadowElevation = 5.dp
     ) {
-        Column(
-            modifier = Modifier.padding(18.dp)
+        Row(
+            modifier = Modifier.padding(18.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "NAVYUG GROUP OF EDUCATION",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 1.3.sp,
-                color = NavyugGold
+            Box(
+                modifier = Modifier
+                    .width(5.dp)
+                    .height(78.dp)
+                    .background(
+                        NavyugGold,
+                        RoundedCornerShape(8.dp)
+                    )
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.width(14.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "NAVYUG GROUP OF EDUCATION",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 1.4.sp,
+                    color = NavyugGold
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = title,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.White
+                )
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Text(
+                    text = subtitle,
+                    fontSize = 11.sp,
+                    color = Color.White.copy(alpha = 0.78f),
+                    lineHeight = 16.sp
+                )
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Surface(
+                shape = RoundedCornerShape(15.dp),
+                color = NavyugGold
             ) {
                 Column(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 11.dp
+                    ),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = title,
-                        fontSize = 21.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        text = count.toString(),
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Black,
+                        color = NavyugNavy
                     )
-
-                    Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
-                        text = subtitle,
-                        fontSize = 12.sp,
-                        color = Color.White.copy(alpha = 0.78f),
-                        lineHeight = 17.sp
+                        text = countLabel,
+                        fontSize = 8.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 0.7.sp,
+                        color = NavyugNavy
                     )
-                }
-
-                Spacer(modifier = Modifier.width(12.dp))
-
-                Surface(
-                    shape = RoundedCornerShape(14.dp),
-                    color = NavyugGold
-                ) {
-                    Column(
-                        modifier = Modifier.padding(
-                            horizontal = 13.dp,
-                            vertical = 10.dp
-                        ),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = count.toString(),
-                            fontSize = 23.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = NavyugNavy
-                        )
-
-                        Text(
-                            text = countLabel,
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 0.7.sp,
-                            color = NavyugNavy
-                        )
-                    }
                 }
             }
         }
@@ -2218,95 +2281,134 @@ private fun ModuleCard(
 
 // ---------------------------------------------------------
 // EVENT CARD WITH IMAGE PREVIEWS
-// ---------------------------------------------------------
 
 @Composable
 private fun EventCard(event: EventRecord) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(22.dp),
         color = Color.White,
-        shadowElevation = 3.dp
+        shadowElevation = 4.dp
     ) {
-
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(18.dp)
         ) {
+            Row(
+                verticalAlignment = Alignment.Top
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(11.dp),
+                    color = Color(0xFFFFF3D2)
+                ) {
+                    Text(
+                        text = "EVENT",
+                        modifier = Modifier.padding(
+                            horizontal = 10.dp,
+                            vertical = 6.dp
+                        ),
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 0.8.sp,
+                        color = Color(0xFF8A6500)
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                if (event.eventDate.isNotBlank()) {
+                    Text(
+                        text = event.eventDate,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = NavyugNavy
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             Text(
                 text = event.title.ifBlank { "Untitled Event" },
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 19.sp,
+                fontWeight = FontWeight.ExtraBold,
                 color = NavyugNavy
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            if (event.eventDate.isNotBlank()) {
-                Text(
-                    text = "Date: ${event.eventDate}",
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color(0xFF8A6500)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
             if (event.description.isNotBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = event.description,
-                    fontSize = 14.sp,
-                    color = Color.DarkGray
+                    fontSize = 13.sp,
+                    color = Color(0xFF526170),
+                    lineHeight = 19.sp
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
             }
 
+            Spacer(modifier = Modifier.height(14.dp))
+
             if (event.files.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "EVENT GALLERY",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 0.9.sp,
+                        color = NavyugNavy
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "${event.files.size} PHOTO(S)",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF8A6500)
+                    )
+                }
 
-                Text(
-                    text = "Event Images (${event.files.size})",
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = NavyugNavy
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(9.dp))
 
                 event.files.forEachIndexed { index, file ->
-
                     val imageUrl = getEventImageUrl(file)
-
                     if (imageUrl.isNotBlank()) {
                         AsyncImage(
                             model = imageUrl,
-                            contentDescription =
-                                "${event.title} image ${index + 1}",
+                            contentDescription = "${event.title} image ${index + 1}",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(190.dp)
-                                .clip(RoundedCornerShape(10.dp)),
+                                .clip(RoundedCornerShape(15.dp)),
                             contentScale = ContentScale.Crop
                         )
-
-                        Spacer(modifier = Modifier.height(10.dp))
+                        if (index != event.files.lastIndex) {
+                            Spacer(modifier = Modifier.height(9.dp))
+                        }
                     }
                 }
             } else {
-                Text(
-                    text = "No attached images or files.",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color(0xFFF3F6FA)
+                ) {
+                    Text(
+                        text = "No attached images or files.",
+                        modifier = Modifier.padding(11.dp),
+                        fontSize = 11.sp,
+                        color = Color.Gray
+                    )
+                }
             }
 
             if (event.createdAt.isNotBlank()) {
+                Spacer(modifier = Modifier.height(14.dp))
+                Divider(color = Color(0xFFE9EEF3))
                 Spacer(modifier = Modifier.height(10.dp))
-
                 Text(
-                    text = "Created: ${event.createdAt}",
-                    fontSize = 11.sp,
+                    text = "CREATED  •  ${event.createdAt}",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.4.sp,
                     color = Color.Gray
                 )
             }
@@ -2315,123 +2417,144 @@ private fun EventCard(event: EventRecord) {
 }
 
 // ---------------------------------------------------------
+
 // MAGAZINE CARD WITH PDF OPENING
-// ---------------------------------------------------------
 
 @Composable
 private fun MagazineCard(magazine: MagazineRecord) {
-
     val context = LocalContext.current
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(22.dp),
         color = Color.White,
-        shadowElevation = 3.dp
+        shadowElevation = 4.dp
     ) {
-
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(18.dp)
         ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = NavyugNavy
+                ) {
+                    Text(
+                        text = "PDF",
+                        modifier = Modifier.padding(
+                            horizontal = 13.dp,
+                            vertical = 10.dp
+                        ),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = NavyugGold
+                    )
+                }
 
-            Text(
-                text = magazine.title.ifBlank {
-                    "Untitled Magazine"
-                },
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold,
-                color = NavyugNavy
-            )
+                Spacer(modifier = Modifier.width(12.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            if (magazine.issueDate.isNotBlank()) {
-                Text(
-                    text = "Issue Date: ${magazine.issueDate}",
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color(0xFF8A6500)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = magazine.title.ifBlank { "Untitled Magazine" },
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = NavyugNavy
+                    )
+                    if (magazine.issueDate.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "ISSUE  •  ${magazine.issueDate}",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF8A6500)
+                        )
+                    }
+                }
             }
 
             if (magazine.description.isNotBlank()) {
+                Spacer(modifier = Modifier.height(13.dp))
                 Text(
                     text = magazine.description,
-                    fontSize = 14.sp,
-                    color = Color.DarkGray
+                    fontSize = 13.sp,
+                    lineHeight = 19.sp,
+                    color = Color(0xFF526170)
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
             }
 
-            if (magazine.files.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(15.dp))
+            Divider(color = Color(0xFFE9EEF3))
+            Spacer(modifier = Modifier.height(13.dp))
 
+            if (magazine.files.isNotEmpty()) {
                 Text(
-                    text = "Available PDF Files (${magazine.files.size})",
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold,
+                    text = "AVAILABLE DOCUMENTS  •  ${magazine.files.size}",
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 0.8.sp,
                     color = NavyugNavy
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
                 magazine.files.forEachIndexed { index, file ->
-
                     val pdfUrl = getMagazinePdfUrl(file)
-
                     if (pdfUrl.isNotBlank()) {
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(
-                                    Color.White,
-                                    RoundedCornerShape(10.dp)
-                                )
-                                .padding(10.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                        Surface(
+                            shape = RoundedCornerShape(14.dp),
+                            color = Color(0xFFF3F6FA)
                         ) {
-
-                            Text(
-                                text = "PDF ${index + 1}",
-                                modifier = Modifier.weight(1f),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = NavyugNavy
-                            )
-
-                            Button(
-                                onClick = {
-                                    try {
-                                        val intent = Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(pdfUrl)
-                                        )
-
-                                        context.startActivity(
-                                            Intent.createChooser(
-                                                intent,
-                                                "Open Magazine PDF"
-                                            )
-                                        )
-                                    } catch (_: Exception) {
-                                        android.widget.Toast.makeText(
-                                            context,
-                                            "No app available to open this PDF.",
-                                            android.widget.Toast.LENGTH_LONG
-                                        ).show()
-                                    }
-                                },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = NavyugNavy
-                                )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text("Open PDF")
+                                Text(
+                                    text = "PDF ${index + 1}",
+                                    modifier = Modifier.weight(1f),
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = NavyugNavy
+                                )
+
+                                Button(
+                                    onClick = {
+                                        try {
+                                            val intent = Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse(pdfUrl)
+                                            )
+                                            context.startActivity(
+                                                Intent.createChooser(
+                                                    intent,
+                                                    "Open Magazine PDF"
+                                                )
+                                            )
+                                        } catch (_: Exception) {
+                                            android.widget.Toast.makeText(
+                                                context,
+                                                "No app available to open this PDF.",
+                                                android.widget.Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    },
+                                    shape = RoundedCornerShape(10.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = NavyugNavy
+                                    )
+                                ) {
+                                    Text(
+                                        text = "OPEN PDF",
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
                             }
                         }
-
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
@@ -2444,11 +2567,11 @@ private fun MagazineCard(magazine: MagazineRecord) {
             }
 
             if (magazine.createdAt.isNotBlank()) {
-                Spacer(modifier = Modifier.height(10.dp))
-
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Created: ${magazine.createdAt}",
-                    fontSize = 11.sp,
+                    text = "ADDED  •  ${magazine.createdAt}",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
                     color = Color.Gray
                 )
             }
@@ -2457,80 +2580,89 @@ private fun MagazineCard(magazine: MagazineRecord) {
 }
 
 // ---------------------------------------------------------
+
 // SEMINAR CARD WITH IMAGE
-// ---------------------------------------------------------
 
 @Composable
 private fun SeminarCard(seminar: SeminarRecord) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(22.dp),
         color = Color.White,
-        shadowElevation = 3.dp
+        shadowElevation = 4.dp
     ) {
-
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(18.dp)
         ) {
+            Text(
+                text = "NAVYUG SEMINAR",
+                fontSize = 9.sp,
+                fontWeight = FontWeight.ExtraBold,
+                letterSpacing = 1.1.sp,
+                color = Color(0xFF8A6500)
+            )
+
+            Spacer(modifier = Modifier.height(7.dp))
 
             Text(
-                text = seminar.title.ifBlank {
-                    "Untitled Seminar"
-                },
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold,
+                text = seminar.title.ifBlank { "Untitled Seminar" },
+                fontSize = 19.sp,
+                fontWeight = FontWeight.ExtraBold,
                 color = NavyugNavy
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
             if (seminar.seminarDate.isNotBlank()) {
-                Text(
-                    text = "Seminar Date: ${seminar.seminarDate}",
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color(0xFF8A6500)
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(9.dp))
+                Surface(
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color(0xFFFFF3D2)
+                ) {
+                    Text(
+                        text = "DATE  •  ${seminar.seminarDate}",
+                        modifier = Modifier.padding(
+                            horizontal = 10.dp,
+                            vertical = 7.dp
+                        ),
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF8A6500)
+                    )
+                }
             }
 
             val imageUrl = getSeminarImageUrl(seminar.imagePath)
-
             if (imageUrl.isNotBlank()) {
+                Spacer(modifier = Modifier.height(14.dp))
                 AsyncImage(
                     model = imageUrl,
                     contentDescription = "${seminar.title} image",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(190.dp)
-                        .clip(RoundedCornerShape(10.dp)),
+                        .height(205.dp)
+                        .clip(RoundedCornerShape(15.dp)),
                     contentScale = ContentScale.Crop
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
             }
 
-            if (seminar.description.isNotBlank()) {
-                Text(
-                    text = seminar.description,
-                    fontSize = 14.sp,
-                    color = Color.DarkGray
-                )
-            } else {
-                Text(
-                    text = "No description available.",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
+            Spacer(modifier = Modifier.height(13.dp))
+
+            Text(
+                text = seminar.description.ifBlank {
+                    "No description available."
+                },
+                fontSize = 13.sp,
+                color = Color(0xFF526170),
+                lineHeight = 19.sp
+            )
 
             if (seminar.createdAt.isNotBlank()) {
-                Spacer(modifier = Modifier.height(10.dp))
-
+                Spacer(modifier = Modifier.height(13.dp))
+                Divider(color = Color(0xFFE9EEF3))
+                Spacer(modifier = Modifier.height(9.dp))
                 Text(
-                    text = "Created: ${seminar.createdAt}",
-                    fontSize = 11.sp,
+                    text = "ADDED  •  ${seminar.createdAt}",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
                     color = Color.Gray
                 )
             }
@@ -2539,151 +2671,148 @@ private fun SeminarCard(seminar: SeminarRecord) {
 }
 
 // ---------------------------------------------------------
+
 // GALLERY CARD WITH IMAGE
-// ---------------------------------------------------------
 
 @Composable
 private fun GalleryCard(item: GalleryRecord) {
-
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(22.dp),
         color = Color.White,
-        shadowElevation = 3.dp
+        shadowElevation = 4.dp
     ) {
-
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(12.dp)
         ) {
-
-            Text(
-                text = item.title.ifBlank {
-                    "Untitled Gallery Image"
-                },
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold,
-                color = NavyugNavy
-            )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
             val imageUrl = getGalleryImageUrl(item.imagePath)
 
             if (imageUrl.isNotBlank()) {
-
                 AsyncImage(
                     model = imageUrl,
                     contentDescription = "${item.title} gallery image",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(210.dp)
-                        .clip(RoundedCornerShape(10.dp)),
+                        .height(225.dp)
+                        .clip(RoundedCornerShape(16.dp)),
                     contentScale = ContentScale.Crop
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
             } else {
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(150.dp)
+                        .height(165.dp)
                         .background(
-                            Color(0xFFE8EDF2),
-                            RoundedCornerShape(10.dp)
+                            Color(0xFFF0F3F7),
+                            RoundedCornerShape(16.dp)
                         ),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Image not available",
-                        color = Color.Gray,
-                        fontSize = 13.sp
+                        text = "IMAGE NOT AVAILABLE",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 0.7.sp,
+                        color = Color.Gray
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier.padding(
+                    start = 6.dp,
+                    end = 6.dp,
+                    top = 14.dp,
+                    bottom = 7.dp
+                )
+            ) {
+                Text(
+                    text = item.title.ifBlank { "Untitled Gallery Image" },
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = NavyugNavy
+                )
+
+                if (item.description.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(7.dp))
+                    Text(
+                        text = item.description,
+                        fontSize = 13.sp,
+                        color = Color(0xFF526170),
+                        lineHeight = 19.sp
                     )
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-
-            if (item.description.isNotBlank()) {
-                Text(
-                    text = item.description,
-                    fontSize = 14.sp,
-                    color = Color.DarkGray
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            if (item.createdAt.isNotBlank()) {
-                Text(
-                    text = "Added: ${item.createdAt}",
-                    fontSize = 11.sp,
-                    color = Color.Gray
-                )
+                if (item.createdAt.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "ADDED  •  ${item.createdAt}",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Gray
+                    )
+                }
             }
         }
     }
 }
 
 // ---------------------------------------------------------
+
 // CONTACT MESSAGE CARD
-// ---------------------------------------------------------
 
 @Composable
 private fun ContactMessageCard(
     item: ContactMessageRecord
 ) {
-
     val context = LocalContext.current
-
-    val isRead = item.status.equals(
-        "read",
-        ignoreCase = true
-    )
+    val isRead = item.status.equals("read", ignoreCase = true)
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(22.dp),
         color = Color.White,
-        shadowElevation = 3.dp
+        shadowElevation = 4.dp
     ) {
-
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(18.dp)
         ) {
-
             Row(
-                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
-                Text(
-                    text = item.name.ifBlank {
-                        "Unknown Sender"
-                    },
-                    modifier = Modifier.weight(1f),
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = NavyugNavy
-                )
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = item.name.ifBlank { "Unknown Sender" },
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = NavyugNavy
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = item.email.ifBlank { "No email address" },
+                        fontSize = 11.sp,
+                        color = Color.Gray
+                    )
+                }
 
                 Surface(
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(10.dp),
                     color = if (isRead) {
-                        Color(0xFFE5E7EB)
+                        Color(0xFFEAF0F4)
                     } else {
-                        Color(0xFFFFE8B3)
+                        Color(0xFFFFF0C2)
                     }
                 ) {
                     Text(
-                        text = item.status.uppercase(),
+                        text = item.status.ifBlank { "NEW" }.uppercase(),
                         modifier = Modifier.padding(
                             horizontal = 10.dp,
-                            vertical = 5.dp
+                            vertical = 7.dp
                         ),
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.ExtraBold,
                         color = if (isRead) {
                             Color(0xFF475467)
                         } else {
@@ -2693,79 +2822,73 @@ private fun ContactMessageCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
-            Text(
-                text = "Subject",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray
-            )
-
-            Spacer(modifier = Modifier.height(3.dp))
-
-            Text(
-                text = item.subject.ifBlank {
-                    "No subject"
-                },
-                fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = NavyugNavy
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = "Message",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = item.message.ifBlank {
-                    "No message"
-                },
-                fontSize = 14.sp,
-                color = Color.DarkGray
-            )
+            Surface(
+                shape = RoundedCornerShape(14.dp),
+                color = Color(0xFFF3F6FA)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(13.dp)
+                ) {
+                    Text(
+                        text = "SUBJECT",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 0.9.sp,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = item.subject.ifBlank { "No subject" },
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = NavyugNavy
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "MESSAGE",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 0.9.sp,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = item.message.ifBlank { "No message" },
+                        fontSize = 13.sp,
+                        lineHeight = 19.sp,
+                        color = Color(0xFF526170)
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            Divider(color = Color(0xFFE5E7EB))
-
-            Spacer(modifier = Modifier.height(12.dp))
-
             Text(
-                text = "Contact Details",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
+                text = "CONTACT DETAILS",
+                fontSize = 10.sp,
+                fontWeight = FontWeight.ExtraBold,
+                letterSpacing = 0.9.sp,
                 color = NavyugNavy
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(7.dp))
 
             Text(
-                text = "Phone: ${item.phone}",
-                fontSize = 13.sp,
-                color = Color.DarkGray
+                text = "Phone  •  ${item.phone.ifBlank { "Not provided" }}",
+                fontSize = 12.sp,
+                color = Color(0xFF526170)
             )
 
-            Text(
-                text = "Email: ${item.email}",
-                fontSize = 13.sp,
-                color = Color.DarkGray
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(13.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(9.dp)
             ) {
-
                 Button(
                     onClick = {
                         try {
@@ -2784,11 +2907,12 @@ private fun ContactMessageCard(
                     },
                     modifier = Modifier.weight(1f),
                     enabled = item.phone.isNotBlank(),
+                    shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = NavyugNavy
                     )
                 ) {
-                    Text("Call")
+                    Text("CALL", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
 
                 Button(
@@ -2809,29 +2933,32 @@ private fun ContactMessageCard(
                     },
                     modifier = Modifier.weight(1f),
                     enabled = item.email.isNotBlank(),
+                    shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = NavyugGold,
                         contentColor = NavyugNavy
                     )
                 ) {
-                    Text("Email")
+                    Text("EMAIL", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
-
             if (item.createdAt.isNotBlank()) {
+                Spacer(modifier = Modifier.height(13.dp))
                 Text(
-                    text = "Received: ${item.createdAt}",
-                    fontSize = 11.sp,
+                    text = "RECEIVED  •  ${item.createdAt}",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
                     color = Color.Gray
                 )
             }
 
             if (item.readAt.isNotBlank()) {
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Read at: ${item.readAt}",
-                    fontSize = 11.sp,
+                    text = "READ  •  ${item.readAt}",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
                     color = Color.Gray
                 )
             }
@@ -2840,52 +2967,64 @@ private fun ContactMessageCard(
 }
 
 // ---------------------------------------------------------
+
 // ADMISSION APPLICATION CARD
-// ---------------------------------------------------------
 
 @Composable
 private fun AdmissionCard(
     item: AdmissionRecord,
     onClick: () -> Unit
 ) {
-
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(22.dp),
         color = Color.White,
-        shadowElevation = 3.dp
+        shadowElevation = 4.dp
     ) {
-
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(18.dp)
         ) {
-
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Top
             ) {
+                Surface(
+                    shape = RoundedCornerShape(13.dp),
+                    color = Color(0xFFFFF3D2)
+                ) {
+                    Text(
+                        text = item.studentName.firstOrNull()
+                            ?.uppercaseChar()?.toString() ?: "S",
+                        modifier = Modifier.padding(
+                            horizontal = 15.dp,
+                            vertical = 12.dp
+                        ),
+                        fontSize = 19.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = NavyugNavy
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
 
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = item.studentName.ifBlank {
-                            "Unnamed Student"
-                        },
+                        text = item.studentName.ifBlank { "Unnamed Student" },
                         fontSize = 17.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.ExtraBold,
                         color = NavyugNavy
                     )
-
                     Spacer(modifier = Modifier.height(4.dp))
-
                     Text(
                         text = item.applicationNo.ifBlank {
-                            "Application #${item.id}"
+                            "APPLICATION #${item.id}"
                         },
-                        fontSize = 12.sp,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 0.4.sp,
                         color = Color.Gray
                     )
                 }
@@ -2893,57 +3032,107 @@ private fun AdmissionCard(
                 AdmissionStatusBadge(item.status)
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(15.dp))
+            Divider(color = Color(0xFFE9EEF3))
+            Spacer(modifier = Modifier.height(13.dp))
 
             Text(
-                text = "${item.admissionType} • ${item.applyingFor}",
+                text = "${item.admissionType}  •  ${item.applyingFor}",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Bold,
                 color = NavyugNavy
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Text(
-                text = "Academic Year: ${item.academicYear}",
-                fontSize = 13.sp,
-                color = Color.DarkGray
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(9.dp)
+            ) {
+                Surface(
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color(0xFFF3F6FA)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(11.dp)
+                    ) {
+                        Text(
+                            text = "ACADEMIC YEAR",
+                            fontSize = 8.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            letterSpacing = 0.5.sp,
+                            color = Color.Gray
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = item.academicYear.ifBlank { "—" },
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = NavyugNavy
+                        )
+                    }
+                }
 
-            Text(
-                text = "Guardian Phone: ${item.guardianPhone}",
-                fontSize = 13.sp,
-                color = Color.DarkGray
-            )
+                Surface(
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color(0xFFF3F6FA)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(11.dp)
+                    ) {
+                        Text(
+                            text = "GUARDIAN PHONE",
+                            fontSize = 8.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            letterSpacing = 0.5.sp,
+                            color = Color.Gray
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = item.guardianPhone.ifBlank { "—" },
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = NavyugNavy
+                        )
+                    }
+                }
+            }
 
             if (item.createdAt.isNotBlank()) {
-                Spacer(modifier = Modifier.height(6.dp))
-
+                Spacer(modifier = Modifier.height(11.dp))
                 Text(
-                    text = "Applied: ${item.createdAt}",
-                    fontSize = 11.sp,
+                    text = "SUBMITTED  •  ${item.createdAt}",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
                     color = Color.Gray
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             Button(
                 onClick = onClick,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(13.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = NavyugGold,
-                    contentColor = NavyugNavy
+                    containerColor = NavyugNavy
                 )
             ) {
-                Text("View Full Application", fontWeight = FontWeight.Bold)
+                Text(
+                    text = "VIEW APPLICATION  →",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 0.6.sp
+                )
             }
         }
     }
 }
 
 // ---------------------------------------------------------
+
 // ADMISSION STATUS BADGE
 // ---------------------------------------------------------
 
@@ -4401,15 +4590,14 @@ private fun CareersScreen(
 
             else -> {
                 filteredApplications.forEach { item ->
-
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 12.dp)
+                            .padding(bottom = 14.dp)
                             .clickable {
                                 selectedCareer = item
                             },
-                        shape = RoundedCornerShape(18.dp),
+                        shape = RoundedCornerShape(22.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White
                         ),
@@ -4418,56 +4606,136 @@ private fun CareersScreen(
                         )
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(17.dp)
                         ) {
-                            Text(
-                                text = item.applicantName.ifBlank {
-                                    "Unnamed Applicant"
-                                },
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = NavyugNavy
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Surface(
+                                    shape = RoundedCornerShape(13.dp),
+                                    color = Color(0xFFFFF3D2)
+                                ) {
+                                    Text(
+                                        text = item.applicantName.firstOrNull()
+                                            ?.uppercaseChar()?.toString() ?: "A",
+                                        modifier = Modifier.padding(
+                                            horizontal = 15.dp,
+                                            vertical = 12.dp
+                                        ),
+                                        fontSize = 19.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = NavyugNavy
+                                    )
+                                }
 
-                            Spacer(modifier = Modifier.height(4.dp))
+                                Spacer(modifier = Modifier.width(12.dp))
 
-                            Text(
-                                text = item.applicationNo.ifBlank {
-                                    "Application #${item.id}"
-                                },
-                                fontSize = 12.sp,
-                                color = Color.Gray
-                            )
+                                Column(
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Text(
+                                        text = item.applicantName.ifBlank {
+                                            "Unnamed Applicant"
+                                        },
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = NavyugNavy
+                                    )
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = item.applicationNo.ifBlank {
+                                            "APPLICATION #${item.id}"
+                                        },
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Gray
+                                    )
+                                }
+                            }
 
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(14.dp))
 
-                            Text(
-                                text = "Position: ${item.positionApplied.ifBlank { "Not specified" }}",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = NavyugNavy
-                            )
+                            Surface(
+                                shape = RoundedCornerShape(12.dp),
+                                color = Color(0xFFF3F6FA)
+                            ) {
+                                Text(
+                                    text = item.positionApplied.ifBlank {
+                                        "Position not specified"
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(12.dp),
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = NavyugNavy
+                                )
+                            }
 
-                            Text(
-                                text = "Phone: ${item.phone.ifBlank { "Not provided" }}",
-                                fontSize = 13.sp,
-                                color = Color.DarkGray
-                            )
+                            Spacer(modifier = Modifier.height(12.dp))
 
-                            Text(
-                                text = "Qualification: ${item.qualification.ifBlank { "Not provided" }}",
-                                fontSize = 13.sp,
-                                color = Color.DarkGray
-                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(9.dp)
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = "PHONE",
+                                        fontSize = 8.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        letterSpacing = 0.5.sp,
+                                        color = Color.Gray
+                                    )
+                                    Spacer(modifier = Modifier.height(3.dp))
+                                    Text(
+                                        text = item.phone.ifBlank { "Not provided" },
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = NavyugNavy
+                                    )
+                                }
 
-                            Spacer(modifier = Modifier.height(8.dp))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = "QUALIFICATION",
+                                        fontSize = 8.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        letterSpacing = 0.5.sp,
+                                        color = Color.Gray
+                                    )
+                                    Spacer(modifier = Modifier.height(3.dp))
+                                    Text(
+                                        text = item.qualification.ifBlank { "Not provided" },
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = NavyugNavy
+                                    )
+                                }
+                            }
 
-                            Text(
-                                text = "VIEW FULL APPLICATION",
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = NavyugGold
-                            )
+                            Spacer(modifier = Modifier.height(14.dp))
+                            Divider(color = Color(0xFFE9EEF3))
+                            Spacer(modifier = Modifier.height(10.dp))
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "APPLICATION DETAILS",
+                                    fontSize = 9.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    letterSpacing = 0.8.sp,
+                                    color = Color(0xFF8A6500)
+                                )
+                                Spacer(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = "VIEW  →",
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = NavyugNavy
+                                )
+                            }
                         }
                     }
                 }
@@ -4498,11 +4766,22 @@ private fun CareerDetailDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(
-                text = "Application Details",
-                color = NavyugNavy,
-                fontWeight = FontWeight.Bold
-            )
+            Column {
+                Text(
+                    text = "NAVYUG CAREERS",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 1.sp,
+                    color = Color(0xFF8A6500)
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    text = "Application Details",
+                    color = NavyugNavy,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            }
         },
         text = {
             Column(
