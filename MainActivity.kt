@@ -701,6 +701,46 @@ fun NavyugLoginScreen() {
                 loading = dashboardLoading,
                 loaded = dashboardLoaded,
                 message = dashboardMessage,
+                onLogout = {
+                    try {
+                        getSessionCookieManager().cookieStore.removeAll()
+                    } catch (_: Exception) {
+                    }
+
+                    loginSucceeded = false
+                    selectedModule = null
+                    selectedAdmission = null
+                    loggedInName = ""
+                    loggedInUsername = ""
+                    loggedInRole = ""
+                    username = ""
+                    password = ""
+                    message = ""
+                    modules = emptyList()
+                    dashboardLoading = false
+                    dashboardLoaded = false
+                    dashboardMessage = ""
+
+                    events = emptyList()
+                    eventsMessage = ""
+                    magazines = emptyList()
+                    magazinesMessage = ""
+                    seminars = emptyList()
+                    seminarsMessage = ""
+                    gallery = emptyList()
+                    galleryMessage = ""
+                    contactMessages = emptyList()
+                    contactMessagesMessage = ""
+                    admissions = emptyList()
+                    admissionsMessage = ""
+                    careerApplications = emptyList()
+                    careersMessage = ""
+                    careersLoading = false
+
+                    admissionSearch = ""
+                    admissionTypeFilter = "all"
+                    admissionStatusFilter = "all"
+                },
                 onRetry = {
                     scope.launch {
                         dashboardLoading = true
@@ -793,8 +833,8 @@ fun NavyugLoginScreen() {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                color = Color.White,
-                shadowElevation = 4.dp
+                color = if (loginSucceeded) Color(0xFF111B2B) else Color.White,
+                shadowElevation = if (loginSucceeded) 0.dp else 4.dp
             ) {
 
                 Column(
@@ -2077,6 +2117,7 @@ private fun DarkPremiumDashboard(
     loaded: Boolean,
     message: String,
     onRetry: () -> Unit,
+    onLogout: () -> Unit,
     onModuleClick: (DashboardModule) -> Unit
 ) {
     val background = Color(0xFF080D18)
@@ -2118,6 +2159,21 @@ private fun DarkPremiumDashboard(
                     Box(Modifier.size(7.dp).background(Color(0xFF55D69E), RoundedCornerShape(50)))
                     Spacer(Modifier.width(7.dp))
                     Text("SECURE", color = Color(0xFF8DE2B8), fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                }
+            }
+            Spacer(Modifier.width(8.dp))
+            Surface(
+                modifier = Modifier.clickable(onClick = onLogout),
+                color = Color(0xFF3A1D29),
+                shape = RoundedCornerShape(11.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 9.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("↪", color = Color(0xFFFF8D9B), fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.width(5.dp))
+                    Text("LOG OUT", color = Color(0xFFFFA3AD), fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
                 }
             }
         }
