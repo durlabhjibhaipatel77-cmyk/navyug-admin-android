@@ -30,6 +30,7 @@ import coil.compose.AsyncImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.CookieHandler
 import java.net.CookieManager
@@ -64,6 +65,9 @@ private const val CONTACT_MESSAGES_URL =
 
 private const val ADMISSIONS_URL =
     "$BASE_URL/api/admissions.php"
+
+private const val CAREERS_URL =
+    "$BASE_URL/api/careers.php"
 
 // ---------------------------------------------------------
 // MAIN ACTIVITY
@@ -230,6 +234,26 @@ private data class AdmissionsResult(
     val applications: List<AdmissionRecord> = emptyList(),
     val currentPage: Int = 1,
     val totalPages: Int = 1
+)
+
+private data class CareerRecord(
+    val id: Int,
+    val applicationNo: String,
+    val applicantName: String,
+    val email: String,
+    val phone: String,
+    val positionApplied: String,
+    val qualification: String,
+    val experienceYears: String,
+    val currentAddress: String,
+    val coverLetter: String,
+    val resumePath: String
+)
+
+private data class CareersResult(
+    val success: Boolean,
+    val message: String,
+    val applications: List<CareerRecord> = emptyList()
 )
 
 // ---------------------------------------------------------
@@ -426,6 +450,17 @@ fun NavyugLoginScreen() {
         mutableStateOf<AdmissionRecord?>(null)
     }
 
+    // CAREERS STATE
+
+    var careerApplications by remember {
+        mutableStateOf<List<CareerRecord>>(emptyList())
+    }
+
+    var careersLoading by remember { mutableStateOf(false) }
+    var careersMessage by remember { mutableStateOf("") }
+
+    val careerContext = LocalContext.current
+
     val scope = rememberCoroutineScope()
 
     // -----------------------------------------------------
@@ -589,6 +624,29 @@ fun NavyugLoginScreen() {
     }
 
     // -----------------------------------------------------
+    // LOAD CAREERS
+    // -----------------------------------------------------
+
+    fun loadCareers() {
+        scope.launch {
+            careersLoading = true
+            careersMessage = ""
+
+            val result = withContext(Dispatchers.IO) {
+                fetchCareers()
+            }
+
+            careersLoading = false
+
+            if (result.success) {
+                careerApplications = result.applications
+            } else {
+                careersMessage = result.message
+            }
+        }
+    }
+
+    // -----------------------------------------------------
     // BACK BUTTON
     // -----------------------------------------------------
 
@@ -617,6 +675,11 @@ fun NavyugLoginScreen() {
 
             admissions = emptyList()
             admissionsMessage = ""
+
+            careerApplications = emptyList()
+            careersMessage = ""
+            careersLoading = false
+
             admissionSearch = ""
             admissionTypeFilter = "all"
             admissionStatusFilter = "all"
@@ -1092,6 +1155,19 @@ fun NavyugLoginScreen() {
                                                             loadAdmissions(1, "", "all", "all")
                                                         }
 
+                                                        module.key.equals(
+                                                            "career_applications",
+                                                            ignoreCase = true
+                                                        ) ||
+                                                                module.key.equals(
+                                                                    "careers",
+                                                                    ignoreCase = true
+                                                                ) -> {
+                                                            careerApplications = emptyList()
+                                                            careersMessage = ""
+                                                            loadCareers()
+                                                        }
+
                                                         else -> {
                                                             eventsMessage =
                                                                 "${module.label} is not connected yet."
@@ -1152,6 +1228,10 @@ fun NavyugLoginScreen() {
 
                                             admissions = emptyList()
                                             admissionsMessage = ""
+
+                                            careerApplications = emptyList()
+                                            careersMessage = ""
+                                            careersLoading = false
                                         }
                                     },
                                     colors = ButtonDefaults.buttonColors(
@@ -1748,6 +1828,45 @@ fun NavyugLoginScreen() {
                                     }
                                 }
 
+
+                                selectedModule!!.key.equals(
+                                    "career_applications",
+                                    ignoreCase = true
+                                ) || selectedModule!!.key.equals(
+                                    "careers",
+                                    ignoreCase = true
+                                ) -> {
+
+                                    CareersScreen(
+                                        applications = careerApplications,
+                                        isLoading = careersLoading,
+                                        message = careersMessage,
+                                        onRefresh = {
+                                            loadCareers()
+                                        },
+                                        onOpenResume = { path ->
+
+                                            val resumeUrl = getFileUrl(path)
+
+                                            try {
+                                                if (resumeUrl.isNotBlank()) {
+                                                    val intent = Intent(
+                                                        Intent.ACTION_VIEW,
+                                                        Uri.parse(resumeUrl)
+                                                    )
+                                                    careerContext.startActivity(intent)
+                                                }
+                                            } catch (_: Exception) {
+                                                android.widget.Toast.makeText(
+                                                    careerContext,
+                                                    "Unable to open resume.",
+                                                    android.widget.Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        }
+                                    )
+                                }
+
                                 else -> {
                                     Text(
                                         text = selectedModule!!.label,
@@ -1836,6 +1955,10 @@ fun NavyugLoginScreen() {
                                     admissions = emptyList()
                                     admissionsMessage = ""
                                     admissionsLoading = false
+
+                                    careerApplications = emptyList()
+                                    careersMessage = ""
+                                    careersLoading = false
                                     admissionsPage = 1
                                     admissionsTotalPages = 1
                                     admissionSearch = ""
@@ -4090,5 +4213,396 @@ private fun fetchAdmissions(
 
     } finally {
         connection?.disconnect()
+    }
+}
+ 
+// ---------------------------------------------------------
+// CAREERS API
+// ---------------------------------------------------------
+
+private fun fetchCareers(): CareersResult {
+
+    var connection: HttpURLConnection? = null
+
+    return try {
+
+        getSessionCookieManager()
+
+        connection =
+            URL(CAREERS_URL).openConnection() as HttpURLConnection
+
+        connection.requestMethod = "GET"
+        connection.connectTimeout = 20000
+        connection.readTimeout = 20000
+
+        connection.setRequestProperty(
+            "Accept",
+            "application/json"
+        )
+
+        val responseCode = connection.responseCode
+
+        val stream = if (responseCode in 200..299) {
+            connection.inputStream
+        } else {
+            connection.errorStream
+        }
+
+        val responseBody = stream
+            ?.bufferedReader()
+            ?.use { it.readText() }
+            ?: ""
+
+        if (responseBody.isBlank()) {
+            throw Exception("Empty response from Careers server (HTTP $responseCode).")
+        }
+
+        val json = JSONObject(responseBody)
+
+        if (
+            responseCode !in 200..299 ||
+            !json.optBoolean("success", false)
+        ) {
+
+            CareersResult(
+                success = false,
+                message = json.optString(
+                    "message",
+                    "Unable to load career applications."
+                )
+            )
+
+        } else {
+
+            val applicationsArray =
+                json.optJSONArray("applications") ?: JSONArray()
+
+            val parsedApplications =
+                mutableListOf<CareerRecord>()
+
+            for (index in 0 until applicationsArray.length()) {
+
+                val item = applicationsArray.optJSONObject(index)
+                    ?: continue
+
+                fun field(name: String): String {
+                    val value = item.optString(name, "")
+                    return if (value == "null") "" else value
+                }
+
+                parsedApplications.add(
+                    CareerRecord(
+                        id = item.optInt("id"),
+                        applicationNo = field("application_no"),
+                        applicantName = field("applicant_name"),
+                        email = field("email"),
+                        phone = field("phone"),
+                        positionApplied = field("position_applied"),
+                        qualification = field("qualification"),
+                        experienceYears = field("experience_years"),
+                        currentAddress = field("current_address"),
+                        coverLetter = field("cover_letter"),
+                        resumePath = field("resume_path")
+                    )
+                )
+            }
+
+            CareersResult(
+                success = true,
+                message = json.optString(
+                    "message",
+                    "Career applications loaded successfully."
+                ),
+                applications = parsedApplications
+            )
+        }
+
+    } catch (e: Exception) {
+
+        CareersResult(
+            success = false,
+            message = "Could not connect to the Careers server: ${e.message}"
+        )
+
+    } finally {
+        connection?.disconnect()
+    }
+}
+
+// ---------------------------------------------------------
+// CAREERS SCREEN
+// ---------------------------------------------------------
+
+@Composable
+private fun CareersScreen(
+    applications: List<CareerRecord>,
+    isLoading: Boolean,
+    message: String,
+    onRefresh: () -> Unit,
+    onOpenResume: (String) -> Unit
+) {
+
+    var selectedCareer by remember {
+        mutableStateOf<CareerRecord?>(null)
+    }
+
+    var searchText by remember {
+        mutableStateOf("")
+    }
+
+    val filteredApplications = applications.filter { item ->
+        item.applicantName.contains(searchText, ignoreCase = true) ||
+                item.applicationNo.contains(searchText, ignoreCase = true) ||
+                item.positionApplied.contains(searchText, ignoreCase = true) ||
+                item.phone.contains(searchText, ignoreCase = true) ||
+                item.email.contains(searchText, ignoreCase = true)
+    }
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+
+        Text(
+            text = "Career Applications",
+            fontSize = 23.sp,
+            fontWeight = FontWeight.Bold,
+            color = NavyugNavy
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(
+            text = "View and review submitted job applications.",
+            color = Color.Gray,
+            fontSize = 13.sp
+        )
+
+        Spacer(modifier = Modifier.height(14.dp))
+
+        OutlinedTextField(
+            value = searchText,
+            onValueChange = { searchText = it },
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("Search applications") },
+            placeholder = {
+                Text("Name, application no., position, phone...")
+            },
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp)
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        RefreshButton(
+            label = "Refresh Career Applications",
+            onClick = onRefresh
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = "Total Applications: ${applications.size}",
+            fontWeight = FontWeight.Bold,
+            color = NavyugNavy
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        when {
+            isLoading -> {
+                LoadingMessage("Loading career applications...")
+            }
+
+            message.isNotBlank() -> {
+                ErrorMessage(message)
+                RetryButton(onClick = onRefresh)
+            }
+
+            applications.isEmpty() -> {
+                EmptyMessage("No career applications found.")
+                RetryButton(onClick = onRefresh)
+            }
+
+            filteredApplications.isEmpty() -> {
+                EmptyMessage("No applications match your search.")
+            }
+
+            else -> {
+                filteredApplications.forEach { item ->
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp)
+                            .clickable {
+                                selectedCareer = item
+                            },
+                        shape = RoundedCornerShape(14.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        ),
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 3.dp
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+                            Text(
+                                text = item.applicantName.ifBlank {
+                                    "Unnamed Applicant"
+                                },
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = NavyugNavy
+                            )
+
+                            Spacer(modifier = Modifier.height(4.dp))
+
+                            Text(
+                                text = item.applicationNo.ifBlank {
+                                    "Application #${item.id}"
+                                },
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(
+                                text = "Position: ${item.positionApplied.ifBlank { "Not specified" }}",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = NavyugNavy
+                            )
+
+                            Text(
+                                text = "Phone: ${item.phone.ifBlank { "Not provided" }}",
+                                fontSize = 13.sp,
+                                color = Color.DarkGray
+                            )
+
+                            Text(
+                                text = "Qualification: ${item.qualification.ifBlank { "Not provided" }}",
+                                fontSize = 13.sp,
+                                color = Color.DarkGray
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(
+                                text = "VIEW FULL APPLICATION",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = NavyugGold
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        selectedCareer?.let { item ->
+            CareerDetailDialog(
+                item = item,
+                onDismiss = { selectedCareer = null },
+                onOpenResume = onOpenResume
+            )
+        }
+    }
+}
+
+// ---------------------------------------------------------
+// CAREER DETAIL DIALOG
+// ---------------------------------------------------------
+
+@Composable
+private fun CareerDetailDialog(
+    item: CareerRecord,
+    onDismiss: () -> Unit,
+    onOpenResume: (String) -> Unit
+) {
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Application Details",
+                color = NavyugNavy,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.verticalScroll(
+                    rememberScrollState()
+                )
+            ) {
+                CareerDetailRow("Application No.", item.applicationNo)
+                CareerDetailRow("Applicant Name", item.applicantName)
+                CareerDetailRow("Email", item.email)
+                CareerDetailRow("Phone", item.phone)
+                CareerDetailRow("Position Applied", item.positionApplied)
+                CareerDetailRow("Qualification", item.qualification)
+                CareerDetailRow(
+                    "Experience",
+                    if (item.experienceYears.isBlank()) {
+                        "Not provided"
+                    } else {
+                        "${item.experienceYears} years"
+                    }
+                )
+                CareerDetailRow("Current Address", item.currentAddress)
+                CareerDetailRow("Cover Letter", item.coverLetter)
+
+                if (item.resumePath.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    TextButton(
+                        onClick = {
+                            onOpenResume(item.resumePath)
+                        }
+                    ) {
+                        Text(
+                            text = "VIEW / DOWNLOAD RESUME",
+                            color = NavyugNavy,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                } else {
+                    CareerDetailRow("Resume", "No resume uploaded")
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("CLOSE")
+            }
+        }
+    )
+}
+
+// ---------------------------------------------------------
+// CAREER DETAIL ROW
+// ---------------------------------------------------------
+
+@Composable
+private fun CareerDetailRow(
+    label: String,
+    value: String
+) {
+    Column(
+        modifier = Modifier.padding(vertical = 5.dp)
+    ) {
+        Text(
+            text = label,
+            fontWeight = FontWeight.Bold,
+            color = NavyugNavy
+        )
+
+        Text(
+            text = value.ifBlank { "Not provided" },
+            color = Color.DarkGray
+        )
     }
 }
