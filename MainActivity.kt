@@ -1267,22 +1267,13 @@ fun NavyugLoginScreen() {
                                     ignoreCase = true
                                 ) -> {
 
-                                    Text(
-                                        text = "Events Management",
-                                        fontSize = 21.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                                                        ModuleSectionHeader(
+                                        title = "Events Management",
+                                        subtitle = "View events from your Navyug website.",
+                                        count = events.size,
+                                        countLabel = "EVENTS"
                                     )
-
-                                    Spacer(modifier = Modifier.height(6.dp))
-
-                                    Text(
-                                        text = "View events from your Navyug website.",
-                                        color = Color.Gray,
-                                        fontSize = 13.sp
-                                    )
-
-                                    Spacer(modifier = Modifier.height(20.dp))
+                                    Spacer(modifier = Modifier.height(16.dp))
 
                                     if (eventsLoading) {
                                         LoadingMessage("Loading events...")
@@ -1297,15 +1288,7 @@ fun NavyugLoginScreen() {
                                             loadEvents(1)
                                         }
                                     } else {
-                                        Text(
-                                            text = "${events.size} events on this page",
-                                            color = Color.Gray,
-                                            fontSize = 13.sp
-                                        )
-
-                                        Spacer(modifier = Modifier.height(12.dp))
-
-                                        events.forEach { event ->
+                                                                                events.forEach { event ->
                                             EventCard(event)
                                             Spacer(modifier = Modifier.height(14.dp))
                                         }
@@ -1333,22 +1316,13 @@ fun NavyugLoginScreen() {
                                     ignoreCase = true
                                 ) -> {
 
-                                    Text(
-                                        text = "Navyug Magazines",
-                                        fontSize = 21.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                                                        ModuleSectionHeader(
+                                        title = "Navyug Magazines",
+                                        subtitle = "View and open magazine PDFs from your Navyug website.",
+                                        count = magazines.size,
+                                        countLabel = "MAGAZINES"
                                     )
-
-                                    Spacer(modifier = Modifier.height(6.dp))
-
-                                    Text(
-                                        text = "View and open magazine PDFs from your Navyug website.",
-                                        color = Color.Gray,
-                                        fontSize = 13.sp
-                                    )
-
-                                    Spacer(modifier = Modifier.height(20.dp))
+                                    Spacer(modifier = Modifier.height(16.dp))
 
                                     if (magazinesLoading) {
                                         LoadingMessage("Loading magazines...")
@@ -1363,15 +1337,7 @@ fun NavyugLoginScreen() {
                                             loadMagazines(1)
                                         }
                                     } else {
-                                        Text(
-                                            text = "${magazines.size} magazines on this page",
-                                            color = Color.Gray,
-                                            fontSize = 13.sp
-                                        )
-
-                                        Spacer(modifier = Modifier.height(12.dp))
-
-                                        magazines.forEach { magazine ->
+                                                                                magazines.forEach { magazine ->
                                             MagazineCard(magazine)
                                             Spacer(modifier = Modifier.height(14.dp))
                                         }
@@ -1399,22 +1365,13 @@ fun NavyugLoginScreen() {
                                     ignoreCase = true
                                 ) -> {
 
-                                    Text(
-                                        text = "Seminars Management",
-                                        fontSize = 21.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                                                        ModuleSectionHeader(
+                                        title = "Seminars Management",
+                                        subtitle = "View seminars and images from your Navyug website.",
+                                        count = seminars.size,
+                                        countLabel = "SEMINARS"
                                     )
-
-                                    Spacer(modifier = Modifier.height(6.dp))
-
-                                    Text(
-                                        text = "View seminars and images from your Navyug website.",
-                                        color = Color.Gray,
-                                        fontSize = 13.sp
-                                    )
-
-                                    Spacer(modifier = Modifier.height(20.dp))
+                                    Spacer(modifier = Modifier.height(16.dp))
 
                                     if (seminarsLoading) {
                                         LoadingMessage("Loading seminars...")
@@ -1429,15 +1386,7 @@ fun NavyugLoginScreen() {
                                             loadSeminars(1)
                                         }
                                     } else {
-                                        Text(
-                                            text = "${seminars.size} seminars on this page",
-                                            color = Color.Gray,
-                                            fontSize = 13.sp
-                                        )
-
-                                        Spacer(modifier = Modifier.height(12.dp))
-
-                                        seminars.forEach { seminar ->
+                                                                                seminars.forEach { seminar ->
                                             SeminarCard(seminar)
                                             Spacer(modifier = Modifier.height(14.dp))
                                         }
@@ -1465,22 +1414,13 @@ fun NavyugLoginScreen() {
                                     ignoreCase = true
                                 ) -> {
 
-                                    Text(
-                                        text = "Navyug Gallery",
-                                        fontSize = 21.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                                                        ModuleSectionHeader(
+                                        title = "Navyug Gallery",
+                                        subtitle = "View photos from your Navyug website gallery.",
+                                        count = gallery.size,
+                                        countLabel = "PHOTOS"
                                     )
-
-                                    Spacer(modifier = Modifier.height(6.dp))
-
-                                    Text(
-                                        text = "View photos from your Navyug website gallery.",
-                                        color = Color.Gray,
-                                        fontSize = 13.sp
-                                    )
-
-                                    Spacer(modifier = Modifier.height(20.dp))
+                                    Spacer(modifier = Modifier.height(16.dp))
 
                                     if (galleryLoading) {
                                         LoadingMessage("Loading gallery...")
@@ -1495,15 +1435,7 @@ fun NavyugLoginScreen() {
                                             loadGallery(1)
                                         }
                                     } else {
-                                        Text(
-                                            text = "${gallery.size} gallery items on this page",
-                                            color = Color.Gray,
-                                            fontSize = 13.sp
-                                        )
-
-                                        Spacer(modifier = Modifier.height(12.dp))
-
-                                        gallery.forEach { item ->
+                                                                                gallery.forEach { item ->
                                             GalleryCard(item)
                                             Spacer(modifier = Modifier.height(14.dp))
                                         }
@@ -1535,22 +1467,13 @@ fun NavyugLoginScreen() {
                                             ignoreCase = true
                                         ) -> {
 
-                                    Text(
-                                        text = "Contact Messages",
-                                        fontSize = 21.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = NavyugNavy
+                                                                        ModuleSectionHeader(
+                                        title = "Contact Messages",
+                                        subtitle = "View enquiries submitted through your Navyug website contact form.",
+                                        count = contactMessages.size,
+                                        countLabel = "MESSAGES"
                                     )
-
-                                    Spacer(modifier = Modifier.height(6.dp))
-
-                                    Text(
-                                        text = "View enquiries submitted through your Navyug website contact form.",
-                                        color = Color.Gray,
-                                        fontSize = 13.sp
-                                    )
-
-                                    Spacer(modifier = Modifier.height(20.dp))
+                                    Spacer(modifier = Modifier.height(16.dp))
 
                                     if (contactMessagesLoading) {
                                         LoadingMessage("Loading contact messages...")
@@ -1565,15 +1488,7 @@ fun NavyugLoginScreen() {
                                             loadContactMessages(1)
                                         }
                                     } else {
-                                        Text(
-                                            text = "${contactMessages.size} messages on this page",
-                                            color = Color.Gray,
-                                            fontSize = 13.sp
-                                        )
-
-                                        Spacer(modifier = Modifier.height(12.dp))
-
-                                        contactMessages.forEach { item ->
+                                                                                contactMessages.forEach { item ->
                                             ContactMessageCard(item)
                                             Spacer(modifier = Modifier.height(14.dp))
                                         }
@@ -1609,22 +1524,13 @@ fun NavyugLoginScreen() {
 
                                     } else {
 
-                                        Text(
-                                            text = "Admission Applications",
-                                            fontSize = 21.sp,
-                                            fontWeight = FontWeight.Bold,
-                                            color = NavyugNavy
+                                                                                ModuleSectionHeader(
+                                            title = "Admission Applications",
+                                            subtitle = "View school and college admission applications.",
+                                            count = admissions.size,
+                                            countLabel = "APPLICATIONS"
                                         )
-
-                                        Spacer(modifier = Modifier.height(6.dp))
-
-                                        Text(
-                                            text = "View school and college admission applications.",
-                                            color = Color.Gray,
-                                            fontSize = 13.sp
-                                        )
-
-                                        Spacer(modifier = Modifier.height(18.dp))
+                                        Spacer(modifier = Modifier.height(16.dp))
 
                                         OutlinedTextField(
                                             value = admissionSearch,
@@ -1776,15 +1682,7 @@ fun NavyugLoginScreen() {
 
                                         } else {
 
-                                            Text(
-                                                text = "${admissions.size} applications on this page",
-                                                color = Color.Gray,
-                                                fontSize = 13.sp
-                                            )
-
-                                            Spacer(modifier = Modifier.height(12.dp))
-
-                                            admissions.forEach { item ->
+                                                                                        admissions.forEach { item ->
 
                                                 AdmissionCard(
                                                     item = item,
@@ -2083,6 +1981,7 @@ private fun EmptyMessage(message: String) {
 private fun RetryButton(onClick: () -> Unit) {
     Button(
         onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = NavyugNavy
         )
@@ -2101,12 +2000,97 @@ private fun RefreshButton(
     Button(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = NavyugGold,
             contentColor = NavyugNavy
         )
     ) {
         Text(label)
+    }
+}
+
+@Composable
+private fun ModuleSectionHeader(
+    title: String,
+    subtitle: String,
+    count: Int,
+    countLabel: String
+) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        color = NavyugNavy,
+        shadowElevation = 3.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(18.dp)
+        ) {
+            Text(
+                text = "NAVYUG GROUP OF EDUCATION",
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 1.3.sp,
+                color = NavyugGold
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = title,
+                        fontSize = 21.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    Text(
+                        text = subtitle,
+                        fontSize = 12.sp,
+                        color = Color.White.copy(alpha = 0.78f),
+                        lineHeight = 17.sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Surface(
+                    shape = RoundedCornerShape(14.dp),
+                    color = NavyugGold
+                ) {
+                    Column(
+                        modifier = Modifier.padding(
+                            horizontal = 13.dp,
+                            vertical = 10.dp
+                        ),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = count.toString(),
+                            fontSize = 23.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = NavyugNavy
+                        )
+
+                        Text(
+                            text = countLabel,
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.7.sp,
+                            color = NavyugNavy
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -2129,6 +2113,7 @@ private fun PaginationControls(
         Button(
             onClick = onPrevious,
             enabled = page > 1 && enabled,
+            shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = NavyugNavy
             )
@@ -2145,6 +2130,7 @@ private fun PaginationControls(
         Button(
             onClick = onNext,
             enabled = page < totalPages && enabled,
+            shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = NavyugNavy
             )
@@ -2238,9 +2224,9 @@ private fun ModuleCard(
 private fun EventCard(event: EventRecord) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        shape = RoundedCornerShape(18.dp),
+        color = Color.White,
+        shadowElevation = 3.dp
     ) {
 
         Column(
@@ -2339,9 +2325,9 @@ private fun MagazineCard(magazine: MagazineRecord) {
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        shape = RoundedCornerShape(18.dp),
+        color = Color.White,
+        shadowElevation = 3.dp
     ) {
 
         Column(
@@ -2478,9 +2464,9 @@ private fun MagazineCard(magazine: MagazineRecord) {
 private fun SeminarCard(seminar: SeminarRecord) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        shape = RoundedCornerShape(18.dp),
+        color = Color.White,
+        shadowElevation = 3.dp
     ) {
 
         Column(
@@ -2561,9 +2547,9 @@ private fun GalleryCard(item: GalleryRecord) {
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        shape = RoundedCornerShape(18.dp),
+        color = Color.White,
+        shadowElevation = 3.dp
     ) {
 
         Column(
@@ -2658,9 +2644,9 @@ private fun ContactMessageCard(
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        shape = RoundedCornerShape(18.dp),
+        color = Color.White,
+        shadowElevation = 3.dp
     ) {
 
         Column(
@@ -2867,9 +2853,9 @@ private fun AdmissionCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        shape = RoundedCornerShape(14.dp),
-        color = Color(0xFFF8FAFC),
-        shadowElevation = 2.dp
+        shape = RoundedCornerShape(18.dp),
+        color = Color.White,
+        shadowElevation = 3.dp
     ) {
 
         Column(
@@ -2945,11 +2931,13 @@ private fun AdmissionCard(
             Button(
                 onClick = onClick,
                 modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = NavyugNavy
+                    containerColor = NavyugGold,
+                    contentColor = NavyugNavy
                 )
             ) {
-                Text("View Full Application")
+                Text("View Full Application", fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -4362,22 +4350,14 @@ private fun CareersScreen(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        Text(
-            text = "Career Applications",
-            fontSize = 23.sp,
-            fontWeight = FontWeight.Bold,
-            color = NavyugNavy
+        ModuleSectionHeader(
+            title = "Career Applications",
+            subtitle = "Review staff applications, qualifications and uploaded resumes.",
+            count = applications.size,
+            countLabel = "APPLICATIONS"
         )
 
-        Spacer(modifier = Modifier.height(6.dp))
-
-        Text(
-            text = "View and review submitted job applications.",
-            color = Color.Gray,
-            fontSize = 13.sp
-        )
-
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = searchText,
@@ -4400,15 +4380,7 @@ private fun CareersScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Text(
-            text = "Total Applications: ${applications.size}",
-            fontWeight = FontWeight.Bold,
-            color = NavyugNavy
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        when {
+                when {
             isLoading -> {
                 LoadingMessage("Loading career applications...")
             }
@@ -4437,12 +4409,12 @@ private fun CareersScreen(
                             .clickable {
                                 selectedCareer = item
                             },
-                        shape = RoundedCornerShape(14.dp),
+                        shape = RoundedCornerShape(18.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White
                         ),
                         elevation = CardDefaults.cardElevation(
-                            defaultElevation = 3.dp
+                            defaultElevation = 4.dp
                         )
                     ) {
                         Column(
